@@ -35,6 +35,35 @@ bucket_policy =  {
 
 s3.put_bucket_policy(Bucket= SOURCE_BUCKET_NAME, Policy=bucket_policy) 
 
+
+IAM_policy = {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket",
+                "s3:GetObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::SOURCE_BUCKET_NAME",
+                "arn:aws:s3:::SOURCE_BUCKET_NAME/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket",
+                "s3:PutObject",
+                "s3:PutObjectAcl"
+            ],
+            "Resource": [
+                "arn:aws:s3:::DESTINATION_BUCKET_NAME",
+                "arn:aws:s3:::DESTINATION_BUCKET_NAME/*"
+            ]
+        }
+    ]
+}
 #Once the bucket policy is set, the final step requires running the following command in the AWS CLI:
 
 'aws s3 sync s3://SOURCE-BUCKET-NAME s3://DESTINATION-BUCKET-NAME --source-region SOURCE-REGION-NAME --region DESTINATION-REGION-NAME'
